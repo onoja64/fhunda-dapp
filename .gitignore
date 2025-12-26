@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+app/node_modules/
+smart-contract/node_modules/
+
+# Next.js
+app/.next/
+app/out/
+
+# Environment variables
+.env
+.env.local
+app/.env*
+!app/.env.example
+smart-contract/.env*
+!smart-contract/.env.example
+
+# Hardhat / Smart Contracts
+smart-contract/artifacts/
+smart-contract/cache/
+smart-contract/typechain-types/
+smart-contract/types/
+smart-contract/deployments/
+smart-contract/fhevmTemp/
+smart-contract/.coverage_artifacts
+smart-contract/.coverage_cache
+smart-contract/.coverage_contracts
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+app/.vscode/
+smart-contract/.vscode/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+app/npm-debug.log*
+smart-contract/npm-debug.log*
+
+# Windows Zone.Identifier files
+*Zone.Identifier
+**/*Zone.Identifier

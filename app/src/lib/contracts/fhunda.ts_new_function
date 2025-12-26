@@ -1,0 +1,100 @@
+/**
+ * Get total platform raised amount (aggregate of all campaigns)
+ * Uses the contract's aggregate function for better performance/accuracy
+ */
+export async function getTotalPlatformRaised(
+  provider: BrowserProvider,
+  relayer: any
+): Promise<string> {
+  try {
+    const signer = await provider.getSigner();
+    if (!signer) {
+      throw new Error("Signer not available");
+    }
+
+    const userAddress = await signer.getAddress();
+    const contract = getFhundaContract(signer);
+    const contractAddress = FHUNDA_CONTRACT_ADDRESS;
+
+    console.log("Fetching aggregate platform total raised...");
+
+    // Call the write function using staticCall to get the encrypted handle without a transaction
+    const handle = await contract.getTotalPlatformRaised.staticCall();
+
+    console.log(`Received platform total handle: ${handle}`);
+
+    if (!handle || handle === "0x" + "0".repeat(64)) {
+      console.log("Platform total handle is empty or zero");
+      return "0";
+    }
+
+    // Generate keypair for decryption
+    const keypair = relayer.generateKeypair();
+
+    // Prepare handle-contract pairs
+    const handleContractPairs = [
+      {
+        handle: handle,
+        contractAddress: contractAddress,
+      },
+    ];
+
+    const startTimeStamp = Math.floor(Date.now() / 1000).toString();
+    const durationDays = "365";
+    const contractAddresses = [contractAddress];
+
+    console.log("Creating EIP712 for platform total authorization...");
+
+    // Create EIP712 request for authorization
+    const eip712 = relayer.createEIP712(
+      keypair.publicKey,
+      contractAddresses,
+      startTimeStamp,
+      durationDays
+    );
+
+    // Request signature from user
+    const signature = await signer.signTypedData(
+      eip712.domain,
+      { ReencryptRequest: eip712.types.ReencryptRequest },
+      eip712.message
+    );
+
+    console.log("Authorizing decryption with relayer...");
+
+    // Call relayer to decrypt the handle
+    const result = await relayer.reencrypt(
+      handleContractPairs,
+      keypair.privateKey,
+      signature,
+      keypair.publicKey,
+      contractAddresses,
+      startTimeStamp,
+      durationDays
+    );
+
+    const decryptedValue = result[handle];
+
+    if (decryptedValue === undefined || decryptedValue === null) {
+      console.warn("Could not decrypt platform total raised");
+      return "0";
+    }
+
+    // Convert from uint64 (6 decimals for USDT)
+    const numValue = Number(decryptedValue);
+    if (isNaN(numValue)) {
+      console.error("Decrypted platform value is not a number:", decryptedValue);
+      return "0";
+    }
+
+    const totalFloat = numValue / 1e6;
+    const formatted = totalFloat.toFixed(6);
+
+    console.log(`Platform total raised: ${formatted} fheUSDT`);
+
+    return formatted;
+  } catch (err: any) {
+    console.error("Failed to fetch/decrypt platform total raised:", err.message);
+    throw err;
+  }
+}
