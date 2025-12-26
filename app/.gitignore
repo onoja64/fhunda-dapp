@@ -92,7 +92,7 @@ temp/
 artifacts/
 cache/
 typechain-types/
-types/
+# types/
 deployments/
 fhevmTemp/
 .coverage_artifacts
