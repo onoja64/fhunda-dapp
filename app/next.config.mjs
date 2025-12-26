@@ -5,6 +5,7 @@ const nextConfig = {
 
   // Configure image domains for IPFS gateways
   swcMinify: true,
+  transpilePackages: ["@coinbase/wallet-sdk", "@zama-fhe/relayer-sdk"],
   images: {
     remotePatterns: [
       {
@@ -47,30 +48,23 @@ const nextConfig = {
   },
 
   webpack: (config, { isServer }) => {
-    console.log("Webpack config called. isServer:", isServer);
-    if (config.optimization) {
-      console.log("Minimizers present:", config.optimization.minimizer?.length);
-    }
-
     if (!isServer) {
-      // Configure Terser to exclude coinbase SDK modules and HeartbeatWorker
-      if (config.optimization.minimizer) {
+      // Configure Terser/Minifier to exclude problematic modules
+      if (config.optimization && config.optimization.minimizer) {
         config.optimization.minimizer.forEach((minimizer) => {
           if (minimizer && minimizer.options) {
-            const pattern = /coinbase|HeartbeatWorker/;
+            const pattern = /coinbase|HeartbeatWorker|relayer-sdk/;
             const existing = minimizer.options.exclude;
 
             if (!existing) {
               minimizer.options.exclude = pattern;
             } else if (existing instanceof RegExp) {
-              // Combine regex
               minimizer.options.exclude = new RegExp(
                 existing.source + "|" + pattern.source
               );
             } else if (Array.isArray(existing)) {
               minimizer.options.exclude = [...existing, pattern];
             } else {
-              // Fallback if it's a string or other
               minimizer.options.exclude = [existing, pattern];
             }
           }
