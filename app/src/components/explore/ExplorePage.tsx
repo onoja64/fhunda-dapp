@@ -134,7 +134,7 @@ export function ExplorePage() {
       }));
     } catch (err: any) {
       console.error("Decryption failed:", err);
-      alert(`Decryption failed: ${err.message || err.toString()}`);
+      alert(`Decryption failed: ${(err as Error)?.message || String(err)}`);
     } finally {
       setIsDecrypting((prev: Record<number, boolean>) => ({
         ...prev,
@@ -172,7 +172,9 @@ export function ExplorePage() {
       setDecryptedTotal(parseFloat(total));
     } catch (err: any) {
       console.error("Total decryption failed:", err);
-      alert(`Total decryption failed: ${err.message || err.toString()}`);
+      alert(
+        `Total decryption failed: ${(err as Error)?.message || String(err)}`
+      );
     } finally {
       setIsDecryptingTotal(false);
     }

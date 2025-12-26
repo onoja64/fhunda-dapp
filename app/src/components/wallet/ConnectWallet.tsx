@@ -16,7 +16,7 @@ export function ConnectWallet({
   showNetwork = true,
   compact = false,
 }: ConnectWalletProps) {
-  const { address, isConnecting, isConnected, chain } = useAccount();
+  const { address, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
   const { connectionError, setConnectionError } = useWalletConnection();
   const [showDropdown, setShowDropdown] = useState(false);

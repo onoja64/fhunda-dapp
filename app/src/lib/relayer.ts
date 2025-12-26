@@ -431,7 +431,7 @@ export async function getDecryptedStats(
     const average = count > 0 ? sum / count : 0;
 
     return { sum, count, average };
-  } catch (error: any) {
+  } catch (_error: any) {
     // Return fallback values if decryption fails
     return { sum: 0, count: 0, average: 0 };
   }

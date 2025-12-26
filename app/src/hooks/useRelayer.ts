@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useAccount, useWalletClient } from "wagmi";
-import { BrowserProvider } from "ethers";
+import { useAccount } from "wagmi";
 import { initializeFheInstance, getFheInstance } from "@/lib/relayer";
 
 /**

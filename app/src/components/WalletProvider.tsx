@@ -4,20 +4,12 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultConfig,
   RainbowKitProvider,
-  darkTheme,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider, http } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { sepolia } from "viem/chains";
 import React, { useState, useEffect, createContext, useContext } from "react";
-import {
-  walletConnectWallet,
-  coinbaseWallet,
-  metaMaskWallet,
-  rainbowWallet,
-  trustWallet,
-} from "@rainbow-me/rainbowkit/wallets";
 
 // WalletConnect Project ID
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";

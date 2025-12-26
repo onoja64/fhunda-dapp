@@ -129,8 +129,8 @@ export const HeroSection: React.FC = () => {
               FHE Powered
             </h3>
             <p className="text-gray-500 leading-relaxed">
-              Powered by Zama's FHEVM for secure, confidential, and trustless
-              aggregate calculations.
+              Powered by Zama&apos;s FHEVM for secure, confidential, and
+              trustless aggregate calculations.
             </p>
           </motion.div>
         </div>

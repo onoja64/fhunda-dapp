@@ -3,7 +3,7 @@
  * Handles all interactions with the Fhunda smart contract for privacy-preserving crowdfunding
  */
 
-import { ethers, Contract, BrowserProvider, Signer, hexlify } from "ethers";
+import { Contract, BrowserProvider, Signer, hexlify } from "ethers";
 import { FHUNDA_CONTRACT_ADDRESS, FHE_USDT_CONTRACT_ADDRESS } from "./config";
 import { FHUNDA_ABI, FHE_USDT_ABI } from "./abis";
 

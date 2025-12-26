@@ -1,7 +1,6 @@
 "use client";
 
 import Link, { LinkProps } from "next/link";
-import { useRouter } from "next/navigation";
 import { useLoading } from "@/providers/LoadingProvider";
 import React from "react";
 
@@ -20,7 +19,6 @@ export const SafeLink: React.FC<SafeLinkProps> = ({
   ...props
 }) => {
   const { setIsLoading } = useLoading();
-  const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // If it's a regular internal link (no target="_blank"), show loader

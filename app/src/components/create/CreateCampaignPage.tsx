@@ -46,10 +46,10 @@ interface FormErrors {
 
 export const CreateCampaignPage: React.FC = () => {
   const router = useRouter();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [step, setStep] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
-  const { createCampaign, isLoading, error: createError } = useCreateCampaign();
+  const { createCampaign, isLoading } = useCreateCampaign();
   const relayer = useRelayer();
   const [uploadError, setUploadError] = useState<string | null>(null);
 

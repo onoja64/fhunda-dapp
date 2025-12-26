@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { parseEther } from "ethers";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
@@ -31,6 +30,7 @@ interface CampaignDetailPageProps {
 type TransactionStatus =
   | "pending"
   | "encrypting"
+  | "decrypting"
   | "signing"
   | "confirming"
   | "success"
@@ -257,7 +257,8 @@ export const CampaignDetailPage: React.FC<CampaignDetailPageProps> = ({
           Campaign Not Found
         </h2>
         <p className="text-gray-600 mb-6">
-          The campaign you're looking for doesn't exist or has been removed.
+          The campaign you&apos;re looking for doesn&apos;t exist or has been
+          removed.
         </p>
         <Button onClick={() => router.push("/explore")}>
           Browse Campaigns
@@ -324,10 +325,11 @@ export const CampaignDetailPage: React.FC<CampaignDetailPageProps> = ({
       setToastMessage("Campaign progress loaded");
       setToastType("success");
       setShowToast(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load progress:", err);
       setToastMessage(
-        err.message || "Failed to load campaign progress. Please try again."
+        (err as Error)?.message ||
+          "Failed to load campaign progress. Please try again."
       );
       setToastType("error");
       setShowToast(true);
@@ -368,14 +370,15 @@ export const CampaignDetailPage: React.FC<CampaignDetailPageProps> = ({
       }
 
       // Step 1: Force Decryption if needed
-      let currentBalance = fheUsdtBalance;
+      let currentBalance: string = fheUsdtBalance || "0.00";
       if (!isDecrypted) {
         setIsContributionModalOpen(false);
         setShowTxModal(true);
         setTxStatus("decrypting");
         try {
           currentBalance = await refetchBalance(relayer.instance);
-        } catch (decryptionErr) {
+        } catch {
+          // _decryptionErr - intentionally unused
           throw new Error(
             "Balance decryption required to proceed. Please sign the request in your wallet."
           );

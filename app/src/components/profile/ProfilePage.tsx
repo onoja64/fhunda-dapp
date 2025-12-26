@@ -56,7 +56,7 @@ export default function ProfilePage() {
     isDecrypting,
     isDecrypted,
   } = useFheUsdtBalance();
-  const [mintAmount, setMintAmount] = useState("100");
+  const [mintAmount] = useState("100");
   const { mintTokens, isLoading: isMinting } = useMintFheUSDT();
   const relayer = useRelayer();
   const provider = useBrowserProvider();

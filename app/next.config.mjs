@@ -4,8 +4,8 @@ const nextConfig = {
   // No need for srcDir configuration
 
   // Configure image domains for IPFS gateways
-  swcMinify: true,
-  transpilePackages: ["@coinbase/wallet-sdk", "@zama-fhe/relayer-sdk"],
+  swcMinify: false,
+  transpilePackages: ["@zama-fhe/relayer-sdk"],
   images: {
     remotePatterns: [
       {
@@ -49,26 +49,27 @@ const nextConfig = {
 
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Configure Terser/Minifier to exclude problematic modules
-      if (config.optimization && config.optimization.minimizer) {
-        config.optimization.minimizer.forEach((minimizer) => {
-          if (minimizer && minimizer.options) {
-            const pattern = /coinbase|HeartbeatWorker|relayer-sdk/;
-            const existing = minimizer.options.exclude;
+      config.output.globalObject = "self";
 
-            if (!existing) {
-              minimizer.options.exclude = pattern;
-            } else if (existing instanceof RegExp) {
-              minimizer.options.exclude = new RegExp(
-                existing.source + "|" + pattern.source
-              );
-            } else if (Array.isArray(existing)) {
-              minimizer.options.exclude = [...existing, pattern];
-            } else {
-              minimizer.options.exclude = [existing, pattern];
+      // Disable worker-loader to prevent issues with wagmi's HeartbeatWorker
+      config.module.rules.push({
+        test: /\.worker\.(js|ts)$/,
+        type: "asset/resource",
+      });
+
+      // Exclude all worker files from Terser minification by filtering webpack entry
+      if (config.optimization && config.optimization.minimizer) {
+        config.optimization.minimizer = config.optimization.minimizer.map(
+          (minimizer) => {
+            if (minimizer && minimizer.constructor.name === "TerserPlugin") {
+              minimizer.options = {
+                ...minimizer.options,
+                exclude: /\.worker\.js$/,
+              };
             }
+            return minimizer;
           }
-        });
+        );
       }
     }
     return config;

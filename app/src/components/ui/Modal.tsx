@@ -274,7 +274,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   isOpen,
   onClose,
   status,
-  title = "Transaction",
+  // title is intentionally unused - config.title is used instead
   txHash,
   errorMessage,
   onRetry,
