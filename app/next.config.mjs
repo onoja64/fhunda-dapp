@@ -48,6 +48,17 @@ const nextConfig = {
   },
 
   webpack: (config, { isServer }) => {
+    // Resolve pino-pretty issues for both server and client
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "pino-pretty": false,
+    };
+
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      "pino-pretty": false,
+    };
+
     if (!isServer) {
       config.output.globalObject = "self";
 

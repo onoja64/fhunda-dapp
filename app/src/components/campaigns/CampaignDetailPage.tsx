@@ -376,7 +376,10 @@ export const CampaignDetailPage: React.FC<CampaignDetailPageProps> = ({
         setShowTxModal(true);
         setTxStatus("decrypting");
         try {
-          currentBalance = await refetchBalance(relayer.instance);
+          const result = await refetchBalance(relayer.instance);
+          if (result) {
+            currentBalance = result;
+          }
         } catch {
           // _decryptionErr - intentionally unused
           throw new Error(

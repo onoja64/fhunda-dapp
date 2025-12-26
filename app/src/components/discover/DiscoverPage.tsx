@@ -3,7 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { CampaignFilterBar } from "@/components/campaigns/CampaignFilterBar";
-import { CampaignFilters, Campaign, CampaignStatus } from "@/types";
+import {
+  CampaignFilters,
+  Campaign,
+  CampaignStatus,
+  CampaignCategory,
+} from "@/types";
 import { useCampaigns } from "@/hooks";
 import type { CampaignData } from "@/lib/contracts/fhunda";
 
@@ -25,6 +30,19 @@ function mapStatusToUiStatus(status: string): CampaignStatus {
   }
 }
 
+function mapCategoryToUiCategory(category: string): CampaignCategory {
+  const validCategories: Record<string, CampaignCategory> = {
+    Technology: "Technology",
+    Arts: "Arts",
+    "Social Cause": "Social Cause",
+    Education: "Education",
+    Health: "Health",
+    Other: "Other",
+  };
+
+  return validCategories[category] || "Other";
+}
+
 function mapCampaignDataToCampaign(c: CampaignData): Campaign {
   const nowSec = Date.now() / 1000;
   const secondsLeft = Math.max(0, c.deadline - nowSec);
@@ -43,7 +61,7 @@ function mapCampaignDataToCampaign(c: CampaignData): Campaign {
     description: c.description,
     shortDescription:
       c.description.slice(0, 160) + (c.description.length > 160 ? "..." : ""),
-    category: c.category || "Technology",
+    category: mapCategoryToUiCategory(c.category || "Other"),
     creatorId: c.creator,
     creatorName: c.creator,
     creatorAvatar: undefined,
@@ -52,7 +70,7 @@ function mapCampaignDataToCampaign(c: CampaignData): Campaign {
     contributors: 0,
     imageUrl,
     daysLeft,
-    status: mapStatusToUiStatus(c.status),
+    status: mapStatusToUiStatus(c.status || ""),
     createdAt: new Date(),
     endsAt: new Date(c.deadline * 1000),
     risksChallenges: undefined,

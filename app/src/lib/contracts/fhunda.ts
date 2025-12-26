@@ -151,13 +151,15 @@ export async function createCampaign(
   let campaignId: number;
 
   // Try to get from event first
-  const event = receipt.logs.find(
-    (log: any) =>
-      log.topics[0] === contract.interface.getEvent("CampaignCreated").topicHash
-  );
+  const event = receipt.logs.find((log: any) => {
+    if (!contract.interface) return false;
+    const fragment = contract.interface.getEvent("CampaignCreated");
+    if (!fragment) return false;
+    return log.topics[0] === fragment.topicHash;
+  });
 
   if (event) {
-    const parsed = contract.interface.parseLog(event);
+    const parsed = contract.interface!.parseLog(event);
     campaignId = Number(parsed?.args?.campaignId || 0);
   } else {
     // Fallback to campaign count

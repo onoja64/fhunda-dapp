@@ -13,6 +13,8 @@
     "jsx": "preserve",
     "incremental": true,
     "target": "es2020",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false,
     "plugins": [
       {
         "name": "next"
@@ -31,5 +33,5 @@
     "src/**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "contract/**/*"]
+  "exclude": ["node_modules", "contract/**/*", "src/lib/test/**/*"]
 }

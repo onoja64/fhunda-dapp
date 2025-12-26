@@ -387,7 +387,7 @@ export default function ProfilePage() {
                           {truncateWords(campaign.description, 20)}
                         </p>
                         <div className="mt-2">
-                          {getStatusBadge(campaign.status)}
+                          {getStatusBadge(campaign.status || "Active")}
                         </div>
                       </div>
                       <div className="text-right">

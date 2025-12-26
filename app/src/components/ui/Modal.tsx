@@ -260,6 +260,7 @@ interface TransactionModalProps {
   status:
     | "pending"
     | "encrypting"
+    | "decrypting"
     | "signing"
     | "confirming"
     | "success"

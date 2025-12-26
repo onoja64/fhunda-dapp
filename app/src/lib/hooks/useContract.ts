@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useAccount } from "wagmi";
-import { BrowserProvider } from "ethers";
+import { BrowserProvider, Eip1193Provider } from "ethers";
 import {
   getAllCampaigns,
   getCampaignsByCreator,
@@ -28,7 +28,7 @@ export function useSigner() {
       throw new Error("Wallet not connected");
     }
     const provider = await connector.getProvider();
-    const ethersProvider = new BrowserProvider(provider);
+    const ethersProvider = new BrowserProvider(provider as Eip1193Provider);
     return ethersProvider.getSigner();
   }, [connector]);
 }
@@ -366,7 +366,9 @@ export function useBrowserProvider(): BrowserProvider | null {
       }
       try {
         const walletProvider = await connector.getProvider();
-        const ethersProvider = new BrowserProvider(walletProvider);
+        const ethersProvider = new BrowserProvider(
+          walletProvider as Eip1193Provider
+        );
         setProvider(ethersProvider);
       } catch (error) {
         console.error("Failed to get provider:", error);

@@ -44,6 +44,14 @@ export const Toast: React.FC<ToastProps> = ({
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
 
+  const handleClose = useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => {
+      setIsVisible(false);
+      onClose?.();
+    }, 300);
+  }, [onClose]);
+
   useEffect(() => {
     if (type === "loading") return; // Don't auto-close loading toasts
 
@@ -53,14 +61,6 @@ export const Toast: React.FC<ToastProps> = ({
 
     return () => clearTimeout(timer);
   }, [duration, type, handleClose]);
-
-  const handleClose = useCallback(() => {
-    setIsExiting(true);
-    setTimeout(() => {
-      setIsVisible(false);
-      onClose?.();
-    }, 300);
-  }, [onClose]);
 
   if (!isVisible) return null;
 

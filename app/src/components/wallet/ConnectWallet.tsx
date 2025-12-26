@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect, useBalance } from "wagmi";
 import { useWalletConnection } from "@/components/WalletProvider";
@@ -190,9 +191,11 @@ export function ConnectWallet({
                         `}
                       >
                         {chain.hasIcon && chain.iconUrl && (
-                          <img
+                          <Image
                             alt={chain.name ?? "Chain icon"}
                             src={chain.iconUrl}
+                            width={16}
+                            height={16}
                             className="w-4 h-4 rounded-full"
                           />
                         )}

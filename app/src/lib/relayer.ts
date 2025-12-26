@@ -44,10 +44,10 @@ export async function initializeFheInstance(
     // 2) Try local installed bundle (safe dynamic import to avoid SSR issues)
     if (!sdk) {
       try {
-        const mod = await import("@zama-fhe/relayer-sdk/bundle");
+        const mod: any = await import("@zama-fhe/relayer-sdk/bundle");
         sdk = mod || (mod && (mod.default || mod));
         console.log("Loaded RelayerSDK from installed bundle");
-      } catch (pkgErr) {
+      } catch (pkgErr: any) {
         console.warn(
           "RelayerSDK bundle import failed:",
           pkgErr?.message || pkgErr
@@ -58,13 +58,13 @@ export async function initializeFheInstance(
     // 3) CDN ESM fallback (runtime import). Use webpackIgnore so bundlers don't try to bundle it.
     if (!sdk) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const remote = await import(
-          /* webpackIgnore: true */ "https://cdn.zama.ai/relayer-sdk-js/0.3.0-5/relayer-sdk-js.js"
-        );
+        const remote: any =
+          (await (globalThis as any).import?.(
+            "https://cdn.zama.ai/relayer-sdk-js/0.3.0-5/relayer-sdk-js.js"
+          )) || {};
         sdk = remote || (remote && (remote.default || remote));
         console.log("Loaded RelayerSDK from CDN (dynamic import)");
-      } catch (cdnErr) {
+      } catch (cdnErr: any) {
         console.warn("CDN dynamic import failed:", cdnErr?.message || cdnErr);
       }
     }

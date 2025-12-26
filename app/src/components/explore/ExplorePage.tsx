@@ -376,7 +376,7 @@ export function ExplorePage() {
                       <h3 className="text-lg font-bold text-gray-900 line-clamp-2">
                         {campaign.title}
                       </h3>
-                      {getStatusBadge(campaign.status)}
+                      {getStatusBadge(campaign.status || "Active")}
                     </div>
 
                     <p className="text-sm text-gray-600 mb-4 line-clamp-3">

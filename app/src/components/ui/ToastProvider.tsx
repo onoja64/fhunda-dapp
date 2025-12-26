@@ -45,7 +45,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
             <Toast
               type={toast.type}
               title={toast.title}
-              description={toast.description}
+              description={toast.description || ""}
               onClose={() => removeToast(toast.id)}
               duration={toast.duration}
             />

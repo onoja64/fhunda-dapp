@@ -163,10 +163,10 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({
           </div>
         )}
         <Badge
-          variant={statusColorMap[campaign.status]}
+          variant={statusColorMap[campaign.status || "Active"]}
           className="absolute top-3 right-3 z-10 scale-in"
         >
-          {campaign.status}
+          {campaign.status || "Active"}
         </Badge>
       </div>
 
