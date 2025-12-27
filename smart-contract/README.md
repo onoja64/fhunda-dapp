@@ -70,7 +70,8 @@ For detailed instructions see:
 ```
 fhevm-hardhat-template/
 ├── contracts/           # Smart contract source files
-│   └── FHECounter.sol   # Example FHE counter contract
+│   └── fheUSDT.sol      # token contract
+│   └── Fhunda.sol       # fhunda contract
 ├── deploy/              # Deployment scripts
 ├── tasks/               # Hardhat custom tasks
 ├── test/                # Test files

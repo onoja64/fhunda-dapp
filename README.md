@@ -16,6 +16,43 @@ Fhunda is a next-generation crowdfunding platform built on the **Zama fhEVM**, l
 
 ---
 
+### 📊 Comprehensive Campaign Management
+
+- Create campaigns with rich metadata (IPFS support)
+- Query campaigns by status, creator, or filter active ones
+- Real-time campaign progress tracking
+- Automatic success detection and status updates
+- Platform-wide statistics and analytics
+
+### 💰 Advanced Financial Operations
+
+- ERC7984 confidential token integration
+- Gas-optimized encrypted transfers
+- Secure withdrawal mechanisms
+- Multi-contributor campaign support
+- Automated campaign lifecycle management
+
+### 🎯 User Experience
+
+- Client-side encryption and decryption
+- Real-time event notifications
+- Intuitive API for frontend integration
+- Comprehensive error handling
+- Mobile-optimized workflows
+
+### Campaign Lifecycle
+
+```
+1. Creator creates campaign
+   ↓
+2. Contributors fund with encrypted amounts
+   ↓
+3. Deadline passes
+   ↓
+4. If target reached → Creator withdraws funds
+   If target NOT reached → Contributors get refunds
+```
+
 ## 🛠 Tech Stack
 
 ### Frontend (`/app`)
